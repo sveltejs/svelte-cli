@@ -37,5 +37,8 @@
     "rollup-plugin-node-resolve": "^2.0.0",
     "rollup-plugin-string": "^2.0.2",
     "sander": "^0.5.1"
+  },
+  "dependencies": {
+    "svelte": "^0.3.0"
   }
 }
