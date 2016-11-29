@@ -19,6 +19,7 @@ export default function compile ( command ) {
 	const isDir = stats.isDirectory();
 
 	const options = {
+		name: command.name,
 		format: command.format,
 		sourceMap: command.sourcemap
 	};
@@ -60,6 +61,9 @@ SOURCEMAPPING_URL += 'ppingURL';
 
 function compileFile ( input, output, options ) {
 	console.error( `compiling ${path.relative( process.cwd(), input )}...` ); // eslint-disable-line no-console
+
+	options = Object.assign( {}, options );
+	if ( !options.name ) options.name = path.basename( input ).replace( path.extname( input ), '' );
 
 	const { sourceMap } = options;
 	const inline = sourceMap === "inline";
