@@ -19,7 +19,8 @@ export default function compile ( command ) {
 	const isDir = stats.isDirectory();
 
 	const options = {
-		format: command.format
+		format: command.format,
+		sourceMap: command.sourcemap
 	};
 
 	if ( isDir ) {
@@ -54,15 +55,30 @@ function compileDirectory ( input, output, options ) {
 	});
 }
 
+let SOURCEMAPPING_URL = 'sourceMa';
+SOURCEMAPPING_URL += 'ppingURL';
+
 function compileFile ( input, output, options ) {
 	console.error( `compiling ${path.relative( process.cwd(), input )}...` ); // eslint-disable-line no-console
 
+	const { sourceMap } = options;
+	const inline = sourceMap === "inline";
+
 	const source = fs.readFileSync( input, 'utf-8' );
-	const { code, map } = svelte.compile( source, options );
+	const compiled = svelte.compile( source, options );
+	const { map } = compiled;
+	let { code } = compiled;
+	if ( sourceMap ) {
+		code += `\n//# ${SOURCEMAPPING_URL}=${( inline || !output ) ? map.toUrl() : `${output}.map`}\n`;
+	}
 
 	if ( output ) {
 		fs.writeFileSync( output, code );
 		console.error( `wrote ${path.relative( process.cwd(), output )}` ); // eslint-disable-line no-console
+		if ( sourceMap && !inline ) {
+			fs.writeFileSync( `${path.basename(output)}.map`, map );
+			console.error( `wrote ${path.relative( process.cwd(), `${output}.map` )}` ); // eslint-disable-line no-console
+		}
 	} else {
 		process.stdout.write( code );
 	}
