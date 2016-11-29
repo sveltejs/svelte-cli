@@ -5,7 +5,7 @@ Command line interface for [Svelte](https://svelte.technology).
 ## Installation
 
 ```bash
-npm install -g svelte
+npm install -g svelte-cli
 ```
 
 ## Usage
