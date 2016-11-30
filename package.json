@@ -30,6 +30,9 @@
     "url": "https://github.com/sveltejs/svelte-cli/issues"
   },
   "homepage": "https://github.com/sveltejs/svelte-cli#readme",
+  "engines": {
+    "node": ">=6.0.0"
+  },
   "devDependencies": {
     "chalk": "^1.1.3",
     "eslint": "^3.11.0",
