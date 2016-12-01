@@ -8,7 +8,7 @@ function mkdirp ( dir ) {
 	if ( dir === parent ) return;
 
 	mkdirp( parent );
-	fs.mkdirSync( dir );
+	if ( !fs.existsSync( dir ) ) fs.mkdirSync( dir );
 }
 
 export default function compile ( command ) {
