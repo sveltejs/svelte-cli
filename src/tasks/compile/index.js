@@ -44,7 +44,7 @@ function compileDirectory ( input, output, options ) {
 		const dest = path.resolve( output, file );
 
 		if ( path.extname( file ) === '.html' ) {
-			compileFile( src, dest, options );
+			compileFile( src, dest.replace('.html', '.js'), options );
 		}
 
 		else {
