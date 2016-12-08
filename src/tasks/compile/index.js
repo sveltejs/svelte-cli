@@ -21,7 +21,8 @@ export default function compile ( command ) {
 	const options = {
 		name: command.name,
 		format: command.format,
-		sourceMap: command.sourcemap
+		sourceMap: command.sourcemap,
+		css: command.css !== false
 	};
 
 	if ( isDir ) {
