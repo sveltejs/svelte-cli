@@ -1,5 +1,9 @@
 # svelte-cli changelog
 
+## 1.2.1
+
+* Show code frame for errors
+
 ## 1.2.0
 
 * Update Svelte version
