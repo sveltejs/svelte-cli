@@ -1,5 +1,6 @@
 import * as path from 'path';
 import * as fs from 'fs';
+import * as chalk from 'chalk';
 import handleError from '../../handleError.js';
 import * as svelte from 'svelte';
 
@@ -69,7 +70,22 @@ function compileFile ( input, output, options ) {
 	const inline = sourceMap === "inline";
 
 	const source = fs.readFileSync( input, 'utf-8' );
-	const compiled = svelte.compile( source, options );
+
+	let compiled;
+
+	try {
+		compiled = svelte.compile( source, options );
+	} catch ( err ) {
+		console.error( chalk.red( err.message ) ); // eslint-disable-line no-console
+		if ( err.frame ) {
+			console.error( err.frame ); // eslint-disable-line no-console
+		} else {
+			console.error( err.stack ); // eslint-disable-line no-console
+		}
+
+		process.exit( 1 );
+	}
+
 	const { map } = compiled;
 	let { code } = compiled;
 	if ( sourceMap ) {
