@@ -14,6 +14,7 @@ Basic options:
 -n, --name               Name for IIFE/UMD export
 -m, --sourcemap          Generate sourcemap (`-m inline` for inline map)
 --amdId                  ID for AMD module (default is anonymous)
+--no-css                 Don't include CSS (useful with SSR)
 
 Examples:
 

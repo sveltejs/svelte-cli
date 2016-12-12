@@ -1,5 +1,11 @@
 # svelte-cli changelog
 
+## 1.2.0
+
+* Update Svelte version
+* Print compiler version when compiling
+* Add `--no-css` option
+
 ## 1.0.3
 
 * Only `mkdir` for directories that don't yet exist ([#7](https://github.com/sveltejs/svelte-cli/issues/7))

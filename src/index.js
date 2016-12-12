@@ -1,6 +1,7 @@
 import minimist from 'minimist';
 import help from './help.md';
 import { version } from '../package.json';
+import { version as svelteVersion } from 'svelte/package.json';
 import tasks from './tasks/index.js';
 
 const command = minimist( process.argv.slice( 2 ), {
@@ -25,10 +26,11 @@ if ( command.help || ( process.argv.length <= 2 && process.stdin.isTTY ) ) {
 }
 
 else if ( command.version ) {
-	console.error( `svelte-cli version ${version}` ); // eslint-disable-line no-console
+	console.error( `svelte-cli version ${version}\nsvelte version ${svelteVersion}` ); // eslint-disable-line no-console
 }
 
 else {
+	console.error( `svelte version ${svelteVersion}` ); // eslint-disable-line no-console
 	const task = tasks[ command._[0] ];
 
 	if ( task ) {
