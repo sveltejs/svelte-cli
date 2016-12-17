@@ -1,5 +1,9 @@
 # svelte-cli changelog
 
+## 1.3.0
+
+* Sanitize names
+
 ## 1.2.1
 
 * Show code frame for errors
