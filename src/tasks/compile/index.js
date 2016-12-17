@@ -65,7 +65,7 @@ function compileFile ( input, output, options ) {
 	console.error( `compiling ${path.relative( process.cwd(), input )}...` ); // eslint-disable-line no-console
 
 	options = Object.assign( {}, options );
-	if ( !options.name ) options.name = path.basename( input ).replace( path.extname( input ), '' );
+	if ( !options.name ) options.name = getName( input );
 
 	const { sourceMap } = options;
 	const inline = sourceMap === "inline";
@@ -103,4 +103,13 @@ function compileFile ( input, output, options ) {
 	} else {
 		process.stdout.write( code );
 	}
+}
+
+function getName ( input ) {
+	return path.basename( input )
+		.replace( path.extname( input ), '' )
+		.replace( /[^a-zA-Z_$0-9]+/g, '_' )
+		.replace( /^_/, '' )
+		.replace( /_$/, '' )
+		.replace( /^(\d)/, '_$1' );
 }
