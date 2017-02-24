@@ -41,6 +41,8 @@ function Main ( options ) {
 	this._root = options._root;
 	this._yield = options._yield;
 
+	this._torndown = false;
+	
 	this._fragment = renderMainFragment( this._state, this );
 	if ( options.target ) this._fragment.mount( options.target, null );
 	
@@ -125,6 +127,7 @@ Main.prototype.teardown = function teardown ( detach ) {
 	this._fragment = null;
 
 	this._state = {};
+	this._torndown = true;
 };
 
 function dispatchObservers( component, group, newState, oldState ) {
@@ -173,4 +176,4 @@ function createText( data ) {
 function noop() {}
 
 export default Main;
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjpudWxsLCJzb3VyY2VzIjpbIi4uL3NyYy9NYWluLmh0bWwiXSwic291cmNlc0NvbnRlbnQiOlsiPHA+SGVsbG8gd29ybGQhPC9wPgoKPHNjcmlwdD4KCWV4cG9ydCBkZWZhdWx0IHsKCQlvbnJlbmRlciAoKSB7CgkJCWNvbnNvbGUubG9nKCAnaGVyZScgKTsKCQl9Cgl9Owo8L3NjcmlwdD4iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IjZCQUVRO0NBQ1AsT0FBZTtFQUNkLFFBQVEsQ0FBQyxHQUFHO0dBQ1gsT0FBTyxDQUFDLEdBQUcsRUFBRSxNQUFNLEVBQUUsQ0FBQztHQUN0QjtFQUNELENBQUM7QUFDSDs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OyJ9
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiTWFpbi5qcyIsInNvdXJjZXMiOlsiLi4vc3JjL01haW4uaHRtbCJdLCJzb3VyY2VzQ29udGVudCI6WyI8cD5IZWxsbyB3b3JsZCE8L3A+XG5cbjxzY3JpcHQ+XG5cdGV4cG9ydCBkZWZhdWx0IHtcblx0XHRvbnJlbmRlciAoKSB7XG5cdFx0XHRjb25zb2xlLmxvZyggJ2hlcmUnICk7XG5cdFx0fVxuXHR9O1xuPC9zY3JpcHQ+Il0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI2QkFFUTtDQUNQLE9BQWU7RUFDZCxRQUFRLENBQUMsR0FBRztHQUNYLE9BQU8sQ0FBQyxHQUFHLEVBQUUsTUFBTSxFQUFFLENBQUM7R0FDdEI7RUFDRCxDQUFDO0FBQ0g7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OzsifQ==

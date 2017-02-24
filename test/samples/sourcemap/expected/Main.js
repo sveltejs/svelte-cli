@@ -41,6 +41,8 @@ function Main ( options ) {
 	this._root = options._root;
 	this._yield = options._yield;
 
+	this._torndown = false;
+	
 	this._fragment = renderMainFragment( this._state, this );
 	if ( options.target ) this._fragment.mount( options.target, null );
 	
@@ -125,6 +127,7 @@ Main.prototype.teardown = function teardown ( detach ) {
 	this._fragment = null;
 
 	this._state = {};
+	this._torndown = true;
 };
 
 function dispatchObservers( component, group, newState, oldState ) {

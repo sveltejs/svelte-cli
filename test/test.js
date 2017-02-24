@@ -44,7 +44,12 @@ describe( 'svelte-cli', () => {
 					const e = expected[i];
 
 					assert.equal( a.file, e.file, 'File list mismatch' );
-					assert.equal( a.contents, e.contents );
+
+					if ( /\.map$/.test( a.file ) ) {
+						assert.deepEqual( JSON.parse( a.contents ), JSON.parse( e.contents ) );
+					} else {
+						assert.equal( a.contents, e.contents );
+					}
 				});
 				
 				done();
