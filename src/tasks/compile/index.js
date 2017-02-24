@@ -67,6 +67,9 @@ function compileFile ( input, output, options ) {
 	options = Object.assign( {}, options );
 	if ( !options.name ) options.name = getName( input );
 
+	options.filename = input;
+	options.outputFilename = output;
+
 	const { sourceMap } = options;
 	const inline = sourceMap === "inline";
 
