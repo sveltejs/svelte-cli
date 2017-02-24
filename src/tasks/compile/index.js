@@ -90,14 +90,14 @@ function compileFile ( input, output, options ) {
 	const { map } = compiled;
 	let { code } = compiled;
 	if ( sourceMap ) {
-		code += `\n//# ${SOURCEMAPPING_URL}=${( inline || !output ) ? map.toUrl() : `${output}.map`}\n`;
+		code += `\n//# ${SOURCEMAPPING_URL}=${( inline || !output ) ? map.toUrl() : `${path.basename(output)}.map`}\n`;
 	}
 
 	if ( output ) {
 		fs.writeFileSync( output, code );
 		console.error( `wrote ${path.relative( process.cwd(), output )}` ); // eslint-disable-line no-console
 		if ( sourceMap && !inline ) {
-			fs.writeFileSync( `${path.basename(output)}.map`, map );
+			fs.writeFileSync( `${output}.map`, map );
 			console.error( `wrote ${path.relative( process.cwd(), `${output}.map` )}` ); // eslint-disable-line no-console
 		}
 	} else {
