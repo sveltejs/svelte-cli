@@ -1,5 +1,9 @@
 # svelte-cli changelog
 
+## 1.3.2
+
+* Don't bundle Svelte compiler version number ([#svelte/327](https://github.com/sveltejs/svelte/issues/327))
+
 ## 1.3.1
 
 * Write sourcemaps to correct location, with correct `sources` and `sourcesContent` ([svelte/#293](https://github.com/sveltejs/svelte/issues/293))
