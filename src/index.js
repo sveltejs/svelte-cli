@@ -1,8 +1,9 @@
 import minimist from 'minimist';
 import help from './help.md';
 import { version } from '../package.json';
-import { version as svelteVersion } from 'svelte/package.json';
 import tasks from './tasks/index.js';
+
+const svelteVersion = require( 'svelte/package.json' ).version;
 
 const command = minimist( process.argv.slice( 2 ), {
 	alias: {

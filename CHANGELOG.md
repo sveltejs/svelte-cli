@@ -1,5 +1,9 @@
 # svelte-cli changelog
 
+## 1.3.3
+
+* Ok, let's try that again...
+
 ## 1.3.2
 
 * Don't bundle Svelte compiler version number ([#svelte/327](https://github.com/sveltejs/svelte/issues/327))
