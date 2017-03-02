@@ -1,7 +1,7 @@
 import minimist from 'minimist';
 import help from './help.md';
 import { version } from '../package.json';
-import { version as svelteVersion } from 'svelte/package.json';
+import { VERSION as svelteVersion } from 'svelte';
 import tasks from './tasks/index.js';
 
 const command = minimist( process.argv.slice( 2 ), {
