@@ -1,5 +1,9 @@
 # svelte-cli changelog
 
+## 1.3.4
+
+* Neater solution to the version reporting problem
+
 ## 1.3.3
 
 * Ok, let's try that again...
