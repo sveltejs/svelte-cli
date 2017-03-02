@@ -49,6 +49,6 @@
     "svelte": "^1.6.10"
   },
   "dependencies": {
-    "svelte": "^1.3.0"
+    "svelte": "^1.9.1"
   }
 }
