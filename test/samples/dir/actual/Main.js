@@ -22,26 +22,25 @@ function renderMainFragment ( root, component ) {
 		update: noop,
 		
 		teardown: function ( detach ) {
-			widget.teardown( detach );
+			widget.destroy( detach );
 		}
 	};
 }
 
 function Main ( options ) {
 	options = options || {};
-	
 	this._state = options.data || {};
-
+	
 	this._observers = {
 		pre: Object.create( null ),
 		post: Object.create( null )
 	};
-
+	
 	this._handlers = Object.create( null );
-
+	
 	this._root = options._root;
 	this._yield = options._yield;
-
+	
 	this._torndown = false;
 	this._renderHooks = [];
 	
@@ -120,7 +119,7 @@ Main.prototype._set = function _set ( newState ) {
 	this._flush();
 };
 
-Main.prototype.teardown = function teardown ( detach ) {
+Main.prototype.teardown = Main.prototype.destroy = function destroy ( detach ) {
 	this.fire( 'teardown' );
 
 	this._fragment.teardown( detach !== false );
@@ -129,6 +128,8 @@ Main.prototype.teardown = function teardown ( detach ) {
 	this._state = {};
 	this._torndown = true;
 };
+
+function noop() {}
 
 function dispatchObservers( component, group, newState, oldState ) {
 	for ( var key in group ) {
@@ -152,7 +153,5 @@ function dispatchObservers( component, group, newState, oldState ) {
 		}
 	}
 }
-
-function noop() {}
 
 export default Main;

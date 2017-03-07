@@ -1,6 +1,6 @@
 var template = (function () {
 	return {
-		onrender () {
+		oncreate () {
 			console.log( 'here' );
 		}
 	};
@@ -28,28 +28,27 @@ function renderMainFragment ( root, component ) {
 
 function Main ( options ) {
 	options = options || {};
-	
 	this._state = options.data || {};
-
+	
 	this._observers = {
 		pre: Object.create( null ),
 		post: Object.create( null )
 	};
-
+	
 	this._handlers = Object.create( null );
-
+	
 	this._root = options._root;
 	this._yield = options._yield;
-
+	
 	this._torndown = false;
 	
 	this._fragment = renderMainFragment( this._state, this );
 	if ( options.target ) this._fragment.mount( options.target, null );
 	
 	if ( options._root ) {
-		options._root._renderHooks.push({ fn: template.onrender, context: this });
+		options._root._renderHooks.push({ fn: template.oncreate, context: this });
 	} else {
-		template.onrender.call( this );
+		template.oncreate.call( this );
 	}
 }
 
@@ -120,7 +119,7 @@ Main.prototype._set = function _set ( newState ) {
 	dispatchObservers( this, this._observers.post, newState, oldState );
 };
 
-Main.prototype.teardown = function teardown ( detach ) {
+Main.prototype.teardown = Main.prototype.destroy = function destroy ( detach ) {
 	this.fire( 'teardown' );
 
 	this._fragment.teardown( detach !== false );
@@ -129,6 +128,28 @@ Main.prototype.teardown = function teardown ( detach ) {
 	this._state = {};
 	this._torndown = true;
 };
+
+function createElement( name ) {
+	return document.createElement( name );
+}
+
+function detachNode( node ) {
+	node.parentNode.removeChild( node );
+}
+
+function insertNode( node, target, anchor ) {
+	target.insertBefore( node, anchor );
+}
+
+function createText( data ) {
+	return document.createTextNode( data );
+}
+
+function appendNode( node, target ) {
+	target.appendChild( node );
+}
+
+function noop() {}
 
 function dispatchObservers( component, group, newState, oldState ) {
 	for ( var key in group ) {
@@ -152,28 +173,6 @@ function dispatchObservers( component, group, newState, oldState ) {
 		}
 	}
 }
-
-function createElement( name ) {
-	return document.createElement( name );
-}
-
-function detachNode( node ) {
-	node.parentNode.removeChild( node );
-}
-
-function insertNode( node, target, anchor ) {
-	target.insertBefore( node, anchor );
-}
-
-function appendNode( node, target ) {
-	target.appendChild( node );
-}
-
-function createText( data ) {
-	return document.createTextNode( data );
-}
-
-function noop() {}
 
 export default Main;
 //# sourceMappingURL=Main.js.map

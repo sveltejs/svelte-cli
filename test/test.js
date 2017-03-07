@@ -6,6 +6,12 @@ const glob = require( 'glob' );
 
 const bin = path.resolve( `bin.js` );
 
+function normalize ( str ) {
+	return str
+		.replace( /^\s+$/gm, '' )
+		.trim();
+}
+
 describe( 'svelte-cli', () => {
 	fs.readdirSync( 'test/samples' ).forEach( dir => {
 		if ( dir[0] === '.' ) return;
@@ -29,14 +35,14 @@ describe( 'svelte-cli', () => {
 				const actual = glob.sync( '**', { cwd: 'actual', nodir: true }).map( file => {
 					return {
 						file,
-						contents: fs.readFileSync( `actual/${file}`, 'utf-8' )
+						contents: normalize( fs.readFileSync( `actual/${file}`, 'utf-8' ) )
 					};
 				});
 
 				const expected = glob.sync( '**', { cwd: 'expected', nodir: true }).map( file => {
 					return {
 						file,
-						contents: fs.readFileSync( `expected/${file}`, 'utf-8' )
+						contents: normalize( fs.readFileSync( `expected/${file}`, 'utf-8' ) )
 					};
 				});
 
@@ -51,7 +57,7 @@ describe( 'svelte-cli', () => {
 						assert.equal( a.contents, e.contents );
 					}
 				});
-				
+
 				done();
 			});
 		});
