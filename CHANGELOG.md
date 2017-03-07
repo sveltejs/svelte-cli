@@ -1,5 +1,9 @@
 # svelte-cli changelog
 
+## 1.3.5
+
+* Add `--dev` mode ([#16](https://github.com/sveltejs/svelte-cli/issues/16))
+
 ## 1.3.4
 
 * Neater solution to the version reporting problem
