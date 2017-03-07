@@ -13,6 +13,7 @@ Basic options:
 -g, --globals            Comma-separate list of `module ID:Global` pairs
 -n, --name               Name for IIFE/UMD export
 -m, --sourcemap          Generate sourcemap (`-m inline` for inline map)
+-d, --dev                Add dev mode warnings and errors
 --amdId                  ID for AMD module (default is anonymous)
 --no-css                 Don't include CSS (useful with SSR)
 

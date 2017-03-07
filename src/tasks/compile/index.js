@@ -23,7 +23,8 @@ export default function compile ( command ) {
 		name: command.name,
 		format: command.format,
 		sourceMap: command.sourcemap,
-		css: command.css !== false
+		css: command.css !== false,
+		dev: command.dev
 	};
 
 	if ( isDir ) {
