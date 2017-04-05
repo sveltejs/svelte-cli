@@ -1,15 +1,7 @@
 import Widget from './Widget.html';
 
-var template = (function () {
-	return {
-		components: {
-			Widget
-		}
-	};
-}());
-
-function renderMainFragment ( root, component ) {
-	var widget = new template.components.Widget({
+function render_main_fragment ( root, component ) {
+	var widget = new Widget({
 		target: null,
 		_root: component._root || component
 	});
@@ -44,73 +36,24 @@ function Main ( options ) {
 	this._torndown = false;
 	this._renderHooks = [];
 	
-	this._fragment = renderMainFragment( this._state, this );
+	this._fragment = render_main_fragment( this._state, this );
 	if ( options.target ) this._fragment.mount( options.target, null );
 	
 	this._flush();
 }
 
-Main.prototype.get = function get( key ) {
- 	return key ? this._state[ key ] : this._state;
- };
-
-Main.prototype.fire = function fire( eventName, data ) {
- 	var handlers = eventName in this._handlers && this._handlers[ eventName ].slice();
- 	if ( !handlers ) return;
- 
- 	for ( var i = 0; i < handlers.length; i += 1 ) {
- 		handlers[i].call( this, data );
- 	}
- };
-
-Main.prototype.observe = function observe( key, callback, options ) {
- 	var group = ( options && options.defer ) ? this._observers.pre : this._observers.post;
- 
- 	( group[ key ] || ( group[ key ] = [] ) ).push( callback );
- 
- 	if ( !options || options.init !== false ) {
- 		callback.__calling = true;
- 		callback.call( this, this._state[ key ] );
- 		callback.__calling = false;
- 	}
- 
- 	return {
- 		cancel: function () {
- 			var index = group[ key ].indexOf( callback );
- 			if ( ~index ) group[ key ].splice( index, 1 );
- 		}
- 	};
- };
-
-Main.prototype.on = function on( eventName, handler ) {
- 	var handlers = this._handlers[ eventName ] || ( this._handlers[ eventName ] = [] );
- 	handlers.push( handler );
- 
- 	return {
- 		cancel: function () {
- 			var index = handlers.indexOf( handler );
- 			if ( ~index ) handlers.splice( index, 1 );
- 		}
- 	};
- };
-
-Main.prototype.set = function set( newState ) {
- 	this._set( newState );
- 	( this._root || this )._flush();
- };
-
-Main.prototype._flush = function _flush() {
- 	if ( !this._renderHooks ) return;
- 
- 	while ( this._renderHooks.length ) {
- 		var hook = this._renderHooks.pop();
- 		hook.fn.call( hook.context );
- 	}
- };
+assign( Main.prototype, {
+	get: get,
+	fire: fire,
+	observe: observe,
+	on: on,
+	set: set,
+	_flush: _flush
+});
 
 Main.prototype._set = function _set ( newState ) {
 	var oldState = this._state;
-	this._state = Object.assign( {}, oldState, newState );
+	this._state = assign( {}, oldState, newState );
 	
 	dispatchObservers( this, this._observers.pre, newState, oldState );
 	if ( this._fragment ) this._fragment.update( newState, this._state );
@@ -120,7 +63,7 @@ Main.prototype._set = function _set ( newState ) {
 };
 
 Main.prototype.teardown = Main.prototype.destroy = function destroy ( detach ) {
-	this.fire( 'teardown' );
+	this.fire( 'destroy' );
 
 	this._fragment.teardown( detach !== false );
 	this._fragment = null;
@@ -130,6 +73,15 @@ Main.prototype.teardown = Main.prototype.destroy = function destroy ( detach ) {
 };
 
 function noop() {}
+
+function assign( target ) {
+	for ( var i = 1; i < arguments.length; i += 1 ) {
+		var source = arguments[i];
+		for ( var k in source ) target[k] = source[k];
+	}
+
+	return target;
+}
 
 function dispatchObservers( component, group, newState, oldState ) {
 	for ( var key in group ) {
@@ -151,6 +103,66 @@ function dispatchObservers( component, group, newState, oldState ) {
 			callback.call( component, newValue, oldValue );
 			callback.__calling = false;
 		}
+	}
+}
+
+function get( key ) {
+	return key ? this._state[ key ] : this._state;
+}
+
+function fire( eventName, data ) {
+	var handlers = eventName in this._handlers && this._handlers[ eventName ].slice();
+	if ( !handlers ) return;
+
+	for ( var i = 0; i < handlers.length; i += 1 ) {
+		handlers[i].call( this, data );
+	}
+}
+
+function observe( key, callback, options ) {
+	var group = ( options && options.defer ) ? this._observers.pre : this._observers.post;
+
+	( group[ key ] || ( group[ key ] = [] ) ).push( callback );
+
+	if ( !options || options.init !== false ) {
+		callback.__calling = true;
+		callback.call( this, this._state[ key ] );
+		callback.__calling = false;
+	}
+
+	return {
+		cancel: function () {
+			var index = group[ key ].indexOf( callback );
+			if ( ~index ) group[ key ].splice( index, 1 );
+		}
+	};
+}
+
+function on( eventName, handler ) {
+	if ( eventName === 'teardown' ) return this.on( 'destroy', handler );
+
+	var handlers = this._handlers[ eventName ] || ( this._handlers[ eventName ] = [] );
+	handlers.push( handler );
+
+	return {
+		cancel: function () {
+			var index = handlers.indexOf( handler );
+			if ( ~index ) handlers.splice( index, 1 );
+		}
+	};
+}
+
+function set( newState ) {
+	this._set( newState );
+	( this._root || this )._flush();
+}
+
+function _flush() {
+	if ( !this._renderHooks ) return;
+
+	while ( this._renderHooks.length ) {
+		var hook = this._renderHooks.pop();
+		hook.fn.call( hook.context );
 	}
 }
 

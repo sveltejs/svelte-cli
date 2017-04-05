@@ -1,7 +1,13 @@
+var Main = (function ( answer ) { 'use strict';
+
+answer = ( answer && answer.__esModule ) ? answer['default'] : answer;
+
 var template = (function () {
 	return {
-		oncreate () {
-			console.log( 'here' );
+		data: function () {
+			return {
+				answer: answer
+			};
 		}
 	};
 }());
@@ -9,14 +15,23 @@ var template = (function () {
 function render_main_fragment ( root, component ) {
 	var p = createElement( 'p' );
 	
-	appendNode( createText( "Hello world!" ), p );
+	appendNode( createText( "The answer is " ), p );
+	var last_text_1 = root.answer;
+	var text_1 = createText( last_text_1 );
+	appendNode( text_1, p );
 
 	return {
 		mount: function ( target, anchor ) {
 			insertNode( p, target, anchor );
 		},
 		
-		update: noop,
+		update: function ( changed, root ) {
+			var tmp;
+		
+			if ( ( tmp = root.answer ) !== last_text_1 ) {
+				text_1.data = last_text_1 = tmp;
+			}
+		},
 		
 		teardown: function ( detach ) {
 			if ( detach ) {
@@ -28,7 +43,7 @@ function render_main_fragment ( root, component ) {
 
 function Main ( options ) {
 	options = options || {};
-	this._state = options.data || {};
+	this._state = assign( template.data(), options.data );
 	
 	this._observers = {
 		pre: Object.create( null ),
@@ -44,12 +59,6 @@ function Main ( options ) {
 	
 	this._fragment = render_main_fragment( this._state, this );
 	if ( options.target ) this._fragment.mount( options.target, null );
-	
-	if ( options._root ) {
-		options._root._renderHooks.push({ fn: template.oncreate, context: this });
-	} else {
-		template.oncreate.call( this );
-	}
 }
 
 assign( Main.prototype, {
@@ -99,8 +108,6 @@ function createText( data ) {
 function appendNode( node, target ) {
 	target.appendChild( node );
 }
-
-function noop() {}
 
 function assign( target ) {
 	for ( var i = 1; i < arguments.length; i += 1 ) {
@@ -194,5 +201,6 @@ function _flush() {
 	}
 }
 
-export default Main;
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiTWFpbi5qcyIsInNvdXJjZXMiOlsiLi4vc3JjL01haW4uaHRtbCJdLCJzb3VyY2VzQ29udGVudCI6WyI8cD5IZWxsbyB3b3JsZCE8L3A+XG5cbjxzY3JpcHQ+XG5cdGV4cG9ydCBkZWZhdWx0IHtcblx0XHRvbnJlbmRlciAoKSB7XG5cdFx0XHRjb25zb2xlLmxvZyggJ2hlcmUnICk7XG5cdFx0fVxuXHR9O1xuPC9zY3JpcHQ+Il0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI2QkFFUTtDQUNQLE9BQWU7RUFDZCxRQUFRLENBQUMsR0FBRztHQUNYLE9BQU8sQ0FBQyxHQUFHLEVBQUUsTUFBTSxFQUFFLENBQUM7R0FDdEI7RUFDRCxDQUFDO0FBQ0g7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7In0=
+return Main;
+
+}(theAnswer));

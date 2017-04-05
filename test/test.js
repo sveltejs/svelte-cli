@@ -16,7 +16,10 @@ describe( 'svelte-cli', () => {
 	fs.readdirSync( 'test/samples' ).forEach( dir => {
 		if ( dir[0] === '.' ) return;
 
-		it( dir, done => {
+		// append .solo to test dir to only run that test
+		const solo = /\.solo$/.test( dir );
+
+		( solo ? it.only : it )( dir, done => {
 			process.chdir( `${__dirname}/samples/${dir}` );
 
 			const command = fs.readFileSync( 'command.sh', 'utf-8' );
