@@ -39,4 +39,4 @@ Notes:
 * When compiling a folder of components, names will always be
   inferred from filenames, and AMD modules will be anonymous
 
-For more information visit https://github.com/rollup/rollup/wiki
+For more information visit https://github.com/sveltejs/svelte-cli
