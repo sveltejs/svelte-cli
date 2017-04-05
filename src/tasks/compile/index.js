@@ -19,10 +19,19 @@ export default function compile ( command ) {
 	const stats = fs.statSync( input );
 	const isDir = stats.isDirectory();
 
+	const globals = {};
+	if ( command.globals ) {
+		command.globals.split( ',' ).forEach( pair => {
+			const [ key, value ] = pair.split( ':' );
+			globals[ key ] = value;
+		});
+	}
+
 	const options = {
 		name: command.name,
 		format: command.format,
 		sourceMap: command.sourcemap,
+		globals,
 		css: command.css !== false,
 		dev: command.dev
 	};
@@ -47,7 +56,7 @@ function compileDirectory ( input, output, options ) {
 		const dest = path.resolve( output, file );
 
 		if ( path.extname( file ) === '.html' ) {
-			compileFile( src, dest.substring( 0,  dest.lastIndexOf( '.html' ) ) + '.js', options );
+			compileFile( src, dest.substring( 0, dest.lastIndexOf( '.html' ) ) + '.js', options );
 		}
 
 		else {
