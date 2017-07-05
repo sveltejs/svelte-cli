@@ -1,5 +1,9 @@
 # svelte-cli changelog
 
+## 1.3.7
+
+* Strip byte order mark ([#22](https://github.com/sveltejs/svelte-cli/issues/22))
+
 ## 1.3.6
 
 * Implement `--globals`
