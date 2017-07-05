@@ -83,7 +83,8 @@ function compileFile ( input, output, options ) {
 	const { sourceMap } = options;
 	const inline = sourceMap === "inline";
 
-	const source = fs.readFileSync( input, 'utf-8' );
+	let source = fs.readFileSync( input, 'utf-8' );
+	if ( source[0] === 0xFEFF ) source = source.slice( 1 );
 
 	let compiled;
 

@@ -26,6 +26,7 @@ describe( 'svelte-cli', () => {
 
 			child_process.exec( `
 				alias svelte=${bin}
+				chmod u+x ${bin}
 				mkdir -p actual
 				rm -rf actual/*
 				${command}
