@@ -33,7 +33,8 @@ export default function compile(command) {
 		sourceMap: command.sourcemap,
 		globals,
 		css: command.css !== false,
-		dev: command.dev
+		dev: command.dev,
+		generate: command.generate || 'dom'
 	};
 
 	if (isDir) {

@@ -16,6 +16,7 @@ Basic options:
 -d, --dev                Add dev mode warnings and errors
 --amdId                  ID for AMD module (default is anonymous)
 --no-css                 Don't include CSS (useful with SSR)
+--generate               Change generate format between 'dom' and 'ssr'
 
 Examples:
 
