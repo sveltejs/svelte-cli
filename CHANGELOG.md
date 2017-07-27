@@ -1,5 +1,9 @@
 # svelte-cli changelog
 
+## 1.4.0
+
+* Add `--generate` option ([#24](https://github.com/sveltejs/svelte-cli/issues/19))
+
 ## 1.3.7
 
 * Strip byte order mark ([#22](https://github.com/sveltejs/svelte-cli/issues/22))
