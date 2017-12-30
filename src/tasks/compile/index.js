@@ -113,6 +113,8 @@ function compileFile(input, output, options) {
 	}
 
 	if (output) {
+		const outputDir = path.dirname(output);
+		mkdirp(outputDir);
 		fs.writeFileSync(output, code);
 		console.error(`wrote ${path.relative(process.cwd(), output)}`); // eslint-disable-line no-console
 		if (sourceMap && !inline) {

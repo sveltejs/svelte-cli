@@ -1,5 +1,9 @@
 # svelte-cli changelog
 
+## 1.4.1
+
+* Fix keeping directories structure
+
 ## 1.4.0
 
 * Add `--generate` option ([#24](https://github.com/sveltejs/svelte-cli/issues/19))
