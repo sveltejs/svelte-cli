@@ -1,5 +1,9 @@
 # svelte-cli changelog
 
+## 1.5.0
+
+* Add `--customElement` support ([#25](https://github.com/sveltejs/svelte-cli/pull/25))
+
 ## 1.4.1
 
 * Fix keeping directories structure
