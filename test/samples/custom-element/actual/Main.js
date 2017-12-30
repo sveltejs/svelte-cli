@@ -23,18 +23,32 @@ function create_main_fragment(state, component) {
 	};
 }
 
-function Main(options) {
-	init(this, options);
-	this._state = assign({}, options.data);
+class Main extends HTMLElement {
+	constructor(options = {}) {
+		super();
+		init(this, options);
+		this._state = assign({}, options.data);
 
-	this._fragment = create_main_fragment(this._state, this);
+		this.attachShadow({ mode: 'open' });
 
-	if (options.target) {
+		this._fragment = create_main_fragment(this._state, this);
+
 		this._fragment.c();
-		this._fragment.m(options.target, options.anchor || null);
+		this._fragment.m(this.shadowRoot, null);
+
+		if (options.target) this._mount(options.target, options.anchor || null);
+	}
+
+	static get observedAttributes() {
+		return [];
+	}
+
+	attributeChangedCallback(attr, oldValue, newValue) {
+		this.set({ [attr]: newValue });
 	}
 }
 
+customElements.define("my-element", Main);
 assign(Main.prototype, {
  	destroy: destroy,
  	get: get,
@@ -46,7 +60,15 @@ assign(Main.prototype, {
  	_set: _set,
  	_mount: _mount,
  	_unmount: _unmount
- });
+ }, {
+	_mount(target, anchor) {
+		target.insertBefore(this, anchor);
+	},
+
+	_unmount() {
+		this.parentNode.removeChild(this);
+	}
+});
 
 Main.prototype._recompute = noop;
 
