@@ -35,7 +35,8 @@ export default function compile(command) {
 		css: command.css !== false,
 		dev: command.dev,
 		generate: command.generate || 'dom',
-		customElement: command.customElement
+		customElement: command.customElement,
+		store: command.store
 	};
 
 	if (isDir) {
