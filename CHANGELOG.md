@@ -1,5 +1,9 @@
 # svelte-cli changelog
 
+## 2.0.0
+
+* Move `svelte` to `peerDependencies`
+
 ## 1.5.0
 
 * Add `--customElement` support ([#25](https://github.com/sveltejs/svelte-cli/pull/25))
