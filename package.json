@@ -1,6 +1,6 @@
 {
   "name": "svelte-cli",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Command line interface for Svelte",
   "main": "index.js",
   "bin": {
@@ -46,9 +46,6 @@
     "rollup-plugin-json": "^2.3.0",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-string": "^2.0.2",
-    "svelte": "^1.50.0"
-  },
-  "peerDependencies": {
-    "svelte": "*"
+    "svelte": "^1"
   }
 }

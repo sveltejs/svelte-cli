@@ -1,5 +1,9 @@
 # svelte-cli changelog
 
+## 2.0.1
+
+* Revert `peerDependencies` decision, as it causes problems when globally installed
+
 ## 2.0.0
 
 * Move `svelte` to `peerDependencies`
