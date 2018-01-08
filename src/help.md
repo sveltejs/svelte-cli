@@ -1,7 +1,7 @@
 svelte-cli version __VERSION__
 =====================================
 
-Usage: svelte compile [options] <entry file>
+Usage: svelte compile <entry file> [options]
 
 Basic options:
 
@@ -17,6 +17,7 @@ Basic options:
 --amdId                  ID for AMD module (default is anonymous)
 --no-css                 Don't include CSS (useful with SSR)
 --generate               Change generate format between 'dom' and 'ssr'
+--store                  Support svelte/store
 
 Examples:
 
