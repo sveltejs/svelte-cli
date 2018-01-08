@@ -1,5 +1,9 @@
 # svelte-cli changelog
 
+## 2.1.0
+
+* Add `--store` flag
+
 ## 2.0.2
 
 * Move `svelte` into `dependencies`, as it was accidentally stuck in `peerDependencies`
