@@ -34,6 +34,9 @@
   "engines": {
     "node": ">=6.0.0"
   },
+  "dependencies": {
+    "svelte": "^1"
+  },
   "devDependencies": {
     "chalk": "^2.3.0",
     "eslint": "^4.14.0",
@@ -45,7 +48,6 @@
     "rollup-plugin-commonjs": "^8.2.6",
     "rollup-plugin-json": "^2.3.0",
     "rollup-plugin-node-resolve": "^3.0.0",
-    "rollup-plugin-string": "^2.0.2",
-    "svelte": "^1"
+    "rollup-plugin-string": "^2.0.2"
   }
 }
