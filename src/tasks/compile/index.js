@@ -34,6 +34,7 @@ export default function compile(command) {
 		globals,
 		css: command.css !== false,
 		dev: command.dev,
+		immutable: command.immutable,
 		generate: command.generate || 'dom',
 		customElement: command.customElement,
 		store: command.store
