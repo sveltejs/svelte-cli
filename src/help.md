@@ -18,6 +18,7 @@ Basic options:
 --no-css                 Don't include CSS (useful with SSR)
 --generate               Change generate format between 'dom' and 'ssr'
 --store                  Support svelte/store
+--immutable              Support immutable data structures
 
 Examples:
 
