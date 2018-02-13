@@ -1,5 +1,9 @@
 # svelte-cli changelog
 
+## 2.2.0
+
+* Add `--immutable` flag
+
 ## 2.1.0
 
 * Add `--store` flag
