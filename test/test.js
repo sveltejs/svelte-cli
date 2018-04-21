@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const child_process = require('child_process');
 const assert = require('assert');
-const glob = require('glob');
+const glob = require('tiny-glob/sync.js');
 
 const bin = path.resolve(`bin.js`);
 
@@ -36,8 +36,7 @@ describe('svelte-cli', () => {
 						return;
 					}
 
-					const actual = glob
-						.sync('**', { cwd: 'actual', nodir: true })
+					const actual = glob('**', { cwd: 'actual', filesOnly: true })
 						.map(file => {
 							return {
 								file,
@@ -45,8 +44,7 @@ describe('svelte-cli', () => {
 							};
 						});
 
-					const expected = glob
-						.sync('**', { cwd: 'expected', nodir: true })
+					const expected = glob('**', { cwd: 'expected', filesOnly: true })
 						.map(file => {
 							return {
 								file,

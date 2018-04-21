@@ -107,25 +107,25 @@ function compileFile(input, output, options) {
 		process.exit(1);
 	}
 
-	const { map } = compiled;
-	let { code } = compiled;
+	const { js } = compiled;
+
 	if (sourceMap) {
-		code += `\n//# ${SOURCEMAPPING_URL}=${inline || !output
-			? map.toUrl()
+		js.code += `\n//# ${SOURCEMAPPING_URL}=${inline || !output
+			? js.map.toUrl()
 			: `${path.basename(output)}.map`}\n`;
 	}
 
 	if (output) {
 		const outputDir = path.dirname(output);
 		mkdirp(outputDir);
-		fs.writeFileSync(output, code);
+		fs.writeFileSync(output, js.code);
 		console.error(`wrote ${path.relative(process.cwd(), output)}`); // eslint-disable-line no-console
 		if (sourceMap && !inline) {
-			fs.writeFileSync(`${output}.map`, map);
+			fs.writeFileSync(`${output}.map`, js.map);
 			console.error(`wrote ${path.relative(process.cwd(), `${output}.map`)}`); // eslint-disable-line no-console
 		}
 	} else {
-		process.stdout.write(code);
+		process.stdout.write(js.code);
 	}
 }
 
