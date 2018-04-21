@@ -1,8 +1,7 @@
 import * as path from 'path';
 import * as fs from 'fs';
-import * as chalk from 'chalk';
-import handleError from '../../handleError.js';
 import * as svelte from 'svelte';
+import error from './error.js';
 
 function mkdirp(dir) {
 	const parent = path.dirname(dir);
@@ -12,41 +11,48 @@ function mkdirp(dir) {
 	if (!fs.existsSync(dir)) fs.mkdirSync(dir);
 }
 
-export default function compile(command) {
-	const input = command.input || command._[1];
-	const output = command.output;
+export async function compile(input, opts) {
+	if (opts._.length > 0) {
+		error(`Can only compile a single file or directory`);
+	}
+
+	const output = opts.output;
 
 	const stats = fs.statSync(input);
 	const isDir = stats.isDirectory();
 
+	if (isDir) {
+		if (!output) {
+			error(`You must specify an --output (-o) option when compiling a directory of files`);
+		}
+
+		if (opts.name || opts.amdId) {
+			error(`Cannot specify --${opts.name ? 'name' : 'amdId'} when compiling a directory`);
+		}
+	}
+
 	const globals = {};
-	if (command.globals) {
-		command.globals.split(',').forEach(pair => {
+	if (opts.globals) {
+		opts.globals.split(',').forEach(pair => {
 			const [key, value] = pair.split(':');
 			globals[key] = value;
 		});
 	}
 
 	const options = {
-		name: command.name,
-		format: command.format,
-		sourceMap: command.sourcemap,
+		name: opts.name,
+		format: opts.format,
+		sourceMap: opts.sourcemap,
 		globals,
-		css: command.css !== false,
-		dev: command.dev,
-		immutable: command.immutable,
-		generate: command.generate || 'dom',
-		customElement: command.customElement,
-		store: command.store
+		css: opts.css !== false,
+		dev: opts.dev,
+		immutable: opts.immutable,
+		generate: opts.generate || 'dom',
+		customElement: opts.customElement,
+		store: opts.store
 	};
 
 	if (isDir) {
-		if (!output) {
-			handleError({
-				code: 'MISSING_DIR_OUTPUT_OPTION'
-			});
-		}
-
 		mkdirp(output);
 		compileDirectory(input, output, options);
 	} else {
@@ -97,35 +103,28 @@ function compileFile(input, output, options) {
 	try {
 		compiled = svelte.compile(source, options);
 	} catch (err) {
-		console.error(chalk.red(err.message)); // eslint-disable-line no-console
-		if (err.frame) {
-			console.error(err.frame); // eslint-disable-line no-console
-		} else {
-			console.error(err.stack); // eslint-disable-line no-console
-		}
-
-		process.exit(1);
+		error(err);
 	}
 
-	const { map } = compiled;
-	let { code } = compiled;
+	const { js } = compiled;
+
 	if (sourceMap) {
-		code += `\n//# ${SOURCEMAPPING_URL}=${inline || !output
-			? map.toUrl()
+		js.code += `\n//# ${SOURCEMAPPING_URL}=${inline || !output
+			? js.map.toUrl()
 			: `${path.basename(output)}.map`}\n`;
 	}
 
 	if (output) {
 		const outputDir = path.dirname(output);
 		mkdirp(outputDir);
-		fs.writeFileSync(output, code);
+		fs.writeFileSync(output, js.code);
 		console.error(`wrote ${path.relative(process.cwd(), output)}`); // eslint-disable-line no-console
 		if (sourceMap && !inline) {
-			fs.writeFileSync(`${output}.map`, map);
+			fs.writeFileSync(`${output}.map`, js.map);
 			console.error(`wrote ${path.relative(process.cwd(), `${output}.map`)}`); // eslint-disable-line no-console
 		}
 	} else {
-		process.stdout.write(code);
+		process.stdout.write(js.code);
 	}
 }
 
