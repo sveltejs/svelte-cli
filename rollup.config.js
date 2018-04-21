@@ -4,13 +4,12 @@ import commonjs from 'rollup-plugin-commonjs';
 import resolve from 'rollup-plugin-node-resolve';
 
 export default {
-	input: 'src/index.js',
+	input: ['src/index.js'],
 	output: {
-		file: 'bin.js',
-		format: 'cjs',
-		banner: '#!/usr/bin/env node'
+		dir: 'dist',
+		format: 'cjs'
 	},
-	external: ['fs', 'path', 'svelte'],
+	external: ['fs', 'path', 'os', 'svelte'],
 	plugins: [
 		json(),
 		string({ include: '**/*.md' }),
@@ -21,5 +20,7 @@ export default {
 			}
 		}),
 		resolve()
-	]
+	],
+	experimentalDynamicImport: true,
+	experimentalCodeSplitting: true
 };

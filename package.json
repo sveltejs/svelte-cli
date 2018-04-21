@@ -8,15 +8,16 @@
   },
   "files": [
     "README.md",
-    "bin.js"
+    "bin.js",
+    "dist"
   ],
   "scripts": {
     "test": "mocha test/test.js",
     "pretest": "npm run build",
     "build": "rollup -c",
-    "dev": "rollup -c -w",
+    "dev": "rollup -cw",
     "lint": "eslint src",
-    "prepublish": "npm run lint && npm run build"
+    "prepublishOnly": "npm run lint && npm run build"
   },
   "repository": {
     "type": "git",
@@ -32,22 +33,22 @@
   },
   "homepage": "https://github.com/sveltejs/svelte-cli#readme",
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=7.6.0"
   },
   "dependencies": {
     "svelte": "^2.1.0"
   },
   "devDependencies": {
-    "chalk": "^2.3.0",
+    "clorox": "^1.0.3",
     "eslint": "^4.14.0",
     "eslint-plugin-import": "^2.8.0",
-    "minimist": "^1.2.0",
     "mocha": "^5.1.1",
     "rollup": "^0.58.1",
     "rollup-plugin-commonjs": "^9.1.0",
     "rollup-plugin-json": "^2.3.0",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-string": "^2.0.2",
+    "sade": "^1.4.0",
     "sander": "^0.6.0",
     "tiny-glob": "^0.2.0"
   }

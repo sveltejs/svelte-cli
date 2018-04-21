@@ -1,38 +1,29 @@
-import minimist from 'minimist';
-import help from './help.md';
-import { version } from '../package.json';
-import { VERSION as svelteVersion } from 'svelte';
-import tasks from './tasks/index.js';
+import sade from 'sade';
+import * as pkg from '../package.json';
 
-const command = minimist(process.argv.slice(2), {
-	alias: {
-		// Aliases
-		strict: 'useStrict',
+const prog = sade('svelte-cli').version(pkg.version);
 
-		// Short options
-		f: 'format',
-		g: 'globals',
-		h: 'help',
-		i: 'input',
-		m: 'sourcemap',
-		n: 'name',
-		o: 'output',
-		v: 'version',
-		d: 'dev'
-	}
-});
+prog
+	.command('compile <input>')
 
-if (command.help || (process.argv.length <= 2 && process.stdin.isTTY)) {
-	console.error(`\n${help.replace('__VERSION__', version)}\n`); // eslint-disable-line no-console
-} else if (command.version) {
-	console.error(`svelte-cli version ${version}\nsvelte version ${svelteVersion}`); // eslint-disable-line no-console
-} else {
-	console.error(`svelte version ${svelteVersion}`); // eslint-disable-line no-console
-	const task = tasks[command._[0]];
+	.option('-o, --output', 'Output (if absent, prints to stdout)')
+	.option('-f, --format', 'Type of output (amd, cjs, es, iife, umd)')
+	.option('-g, --globals', 'Comma-separate list of `module ID:Global` pairs')
+	.option('-n, --name', 'Name for IIFE/UMD export (inferred from filename by default)')
+	.option('-m, --sourcemap', 'Generate sourcemap (`-m inline` for inline map)')
+	.option('-d, --dev', 'Add dev mode warnings and errors')
+	.option('--amdId', 'ID for AMD module (default is anonymous)')
+	.option('--generate', 'Change generate format between `dom` and `ssr`')
+	.option('--no-css', `Don't include CSS (useful with SSR)`)
+	.option('--immutable', 'Support immutable data structures')
 
-	if (task) {
-		task(command);
-	} else {
-		console.error(`Unrecognised command ${command._[0]}. Type svelte --help to see instructions`); // eslint-disable-line no-console
-	}
-}
+	.example('compile App.html > App.js')
+	.example('compile src -o dest')
+	.example('compile -f umd MyComponent.html > MyComponent.js')
+
+	.action(async (input, opts) => {
+		const { compile } = await import('./compile.js');
+		compile(input, opts);
+	})
+
+	.parse(process.argv);

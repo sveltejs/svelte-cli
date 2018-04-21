@@ -22,53 +22,49 @@ describe('svelte-cli', () => {
 
 			const command = fs.readFileSync('command.sh', 'utf-8');
 
-			child_process.exec(
-				`
+			child_process.exec(`
 				alias svelte=${bin}
-				chmod u+x ${bin}
 				mkdir -p actual
 				rm -rf actual/*
 				${command}
-			`,
-				err => {
-					if (err) {
-						done(err);
-						return;
-					}
+			`, (err, stdout, stderr) => {
+				if (err) {
+					done(err);
+					return;
+				}
 
-					const actual = glob('**', { cwd: 'actual', filesOnly: true })
-						.map(file => {
-							return {
-								file,
-								contents: normalize(fs.readFileSync(`actual/${file}`, 'utf-8'))
-							};
-						});
-
-					const expected = glob('**', { cwd: 'expected', filesOnly: true })
-						.map(file => {
-							return {
-								file,
-								contents: normalize(
-									fs.readFileSync(`expected/${file}`, 'utf-8')
-								)
-							};
-						});
-
-					actual.forEach((a, i) => {
-						const e = expected[i];
-
-						assert.equal(a.file, e.file, 'File list mismatch');
-
-						if (/\.map$/.test(a.file)) {
-							assert.deepEqual(JSON.parse(a.contents), JSON.parse(e.contents));
-						} else {
-							assert.equal(a.contents, e.contents);
-						}
+				const actual = glob('**', { cwd: 'actual', filesOnly: true })
+					.map(file => {
+						return {
+							file,
+							contents: normalize(fs.readFileSync(`actual/${file}`, 'utf-8'))
+						};
 					});
 
-					done();
-				}
-			);
+				const expected = glob('**', { cwd: 'expected', filesOnly: true })
+					.map(file => {
+						return {
+							file,
+							contents: normalize(
+								fs.readFileSync(`expected/${file}`, 'utf-8')
+							)
+						};
+					});
+
+				actual.forEach((a, i) => {
+					const e = expected[i];
+
+					assert.equal(a.file, e.file, 'File list mismatch');
+
+					if (/\.map$/.test(a.file)) {
+						assert.deepEqual(JSON.parse(a.contents), JSON.parse(e.contents));
+					} else {
+						assert.equal(a.contents, e.contents);
+					}
+				});
+
+				done();
+			});
 		});
 	});
 });

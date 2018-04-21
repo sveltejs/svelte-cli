@@ -3,3 +3,4 @@ node_modules
 bin.js
 package-lock.json
 yarn.lock
+dist
