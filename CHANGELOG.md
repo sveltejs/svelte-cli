@@ -1,5 +1,11 @@
 # svelte-cli changelog
 
+## 3.0.0
+
+* Update for Svelte v2
+* Remove unnecessary `--input` option
+* Use [Sade](https://github.com/lukeed/sade) internally
+
 ## 2.2.0
 
 * Add `--immutable` flag

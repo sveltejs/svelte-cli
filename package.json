@@ -1,6 +1,6 @@
 {
   "name": "svelte-cli",
-  "version": "2.2.0",
+  "version": "3.0.0",
   "description": "Command line interface for Svelte",
   "main": "index.js",
   "bin": {
