@@ -2,6 +2,10 @@
 
 Command line interface for [Svelte](https://svelte.technology).
 
+## DEPRECATION NOTE
+
+As of Svelte version 2.4.0, the CLI is integrated into the `svelte` package itself, and this package should no longer be used.
+
 ## Why you shouldn't use this
 
 `svelte-cli` is useful if you want to try out Svelte, but it's not recommended for serious production use. It will compile your components to standalone JavaScript files, but won't automatically recompile them when they change, and won't deduplicate code shared between your components.
